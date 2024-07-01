@@ -2,98 +2,52 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 function App() {
-  const [numbers, setNumbers] = useState<number[]>([NaN]);
-  const [operation, setOperation] = useState<string>("");
+  const [value, setValue] = useState<string>("");
 
   const clear = () => {
-    setNumbers([NaN]);
-    setOperation("");
+    setValue("");
   };
 
   const changeSign = () => {
-    const newNumbers = [...numbers];
-    newNumbers[newNumbers.length - 1] *= -1;
-    setNumbers(newNumbers); // Update the state with the new array
+    setValue(value + "*(-1)");
   };
 
   const percent = () => {};
 
   const division = () => {
-    setNumbers([...numbers, NaN]);
-    setOperation("division");
+    setValue(value + "/");
   };
 
   const multiplication = () => {
-    setNumbers([...numbers, NaN]);
-    setOperation("multiplication");
+    setValue(value + "*");
   };
 
   const subtraction = () => {
-    if (isNaN(numbers[numbers.length - 1])) {
-      console.log("어떻게 처리하지?");
-      return 0;
-    }
-    setNumbers([...numbers, NaN]);
-    setOperation("subtraction");
+    setValue(value + "-");
   };
 
   const addition = () => {
-    setNumbers([...numbers, NaN]);
-    setOperation("addition");
+    setValue(value + "+");
   };
 
   const result = () => {
-    if (numbers.length > 1 && !isNaN(numbers[1])) {
-      const numA = numbers[0];
-      const numB = numbers[1];
-      if (numB != undefined) {
-        switch (operation) {
-          case `division`:
-            numbers[0] = numA / numB;
-            break;
-          case `multiplication`:
-            numbers[0] = numA * numB;
-            break;
-          case `subtraction`:
-            numbers[0] = numA - numB;
-            break;
-          case `addition`:
-            numbers[0] = numA + numB;
-            break;
-          default:
-            console.error("Unknown operation");
-        }
-        numbers.pop();
-        setOperation("");
-      }
-    }
+    setValue(eval(value).toString());
   };
 
   const getNumber = (event: React.MouseEvent<HTMLButtonElement>) => {
     const clickedElement = event.target as HTMLButtonElement;
     const inputNum = parseFloat(clickedElement.innerText);
-    setNumbers((prevNumbers) => {
-      const updatedNumbers = [...prevNumbers];
-      const lastIndex = updatedNumbers.length - 1;
-      if (isNaN(updatedNumbers[lastIndex])) {
-        updatedNumbers[lastIndex] = inputNum;
-      } else {
-        updatedNumbers[lastIndex] = updatedNumbers[lastIndex] * 10 + inputNum;
-      }
-      return updatedNumbers;
-    });
+    setValue(value + inputNum);
   };
 
   useEffect(() => {
-    console.log("numbers:", numbers, "operation:", operation);
-  }, [numbers, operation]);
+    console.log("value:", value);
+  }, [value]);
 
   return (
     <StyledApp className="App">
       <StyledDiv>
-        <OutputDiv>
-          {isNaN(numbers[numbers.length - 1]) ? 0 : numbers[numbers.length - 1]}
-        </OutputDiv>
+        <OutputDiv>{value}</OutputDiv>
         <InputDiv>
           <div className="firstRow">
             <LightButton onClick={() => clear()}>C</LightButton>
