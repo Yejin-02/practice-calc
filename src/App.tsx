@@ -9,10 +9,12 @@ function App() {
   };
 
   const changeSign = () => {
-    setValue(value + "*(-1)");
+    setValue(eval(value + "*(-1)").toString());
   };
 
-  const percent = () => {};
+  const percent = () => {
+    setValue(eval(value + "*0.01").toString());
+  };
 
   const division = () => {
     setValue(value + "/");
@@ -34,9 +36,9 @@ function App() {
     setValue(eval(value).toString());
   };
 
-  const getNumber = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const getInput = (event: React.MouseEvent<HTMLButtonElement>) => {
     const clickedElement = event.target as HTMLButtonElement;
-    const inputNum = parseFloat(clickedElement.innerText);
+    const inputNum = clickedElement.innerText;
     setValue(value + inputNum);
   };
 
@@ -56,46 +58,46 @@ function App() {
             <OrangeButton onClick={() => division()}>/</OrangeButton>
           </div>
           <div className="secondRow">
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               7
             </DarkButton>
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               8
             </DarkButton>
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               9
             </DarkButton>
             <OrangeButton onClick={() => multiplication()}>*</OrangeButton>
           </div>
           <div className="thirdRow">
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               4
             </DarkButton>
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               5
             </DarkButton>
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               6
             </DarkButton>
             <OrangeButton onClick={() => subtraction()}>-</OrangeButton>
           </div>
           <div className="forthRow">
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               1
             </DarkButton>
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               2
             </DarkButton>
-            <DarkButton className="numberButton" onClick={getNumber}>
+            <DarkButton className="numberButton" onClick={getInput}>
               3
             </DarkButton>
             <OrangeButton onClick={() => addition()}>+</OrangeButton>
           </div>
           <div className="fifthRow">
-            <LongButton className="numberButton" onClick={getNumber}>
+            <LongButton className="numberButton" onClick={getInput}>
               0
             </LongButton>
-            <DarkButton>.</DarkButton>
+            <DarkButton onClick={getInput}>.</DarkButton>
             <OrangeButton onClick={() => result()}>=</OrangeButton>
           </div>
         </InputDiv>
