@@ -1,40 +1,16 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import addition from "./operations/addition.ts";
+import clear from "./operations/clear.ts";
+import division from "./operations/division.ts";
+import multiplication from "./operations/multiplication.ts";
+import percent from "./operations/percent.ts";
+import result from "./operations/result.ts";
+import subtraction from "./operations/subtraction.ts";
+
 function App() {
   const [value, setValue] = useState<string>("");
-
-  const clear = () => {
-    setValue("");
-  };
-
-  const changeSign = () => {
-    setValue(eval(value + "*(-1)").toString());
-  };
-
-  const percent = () => {
-    setValue(eval(value + "*0.01").toString());
-  };
-
-  const division = () => {
-    setValue(value + "/");
-  };
-
-  const multiplication = () => {
-    setValue(value + "*");
-  };
-
-  const subtraction = () => {
-    setValue(value + "-");
-  };
-
-  const addition = () => {
-    setValue(value + "+");
-  };
-
-  const result = () => {
-    setValue(eval(value).toString());
-  };
 
   const getInput = (event: React.MouseEvent<HTMLButtonElement>) => {
     const clickedElement = event.target as HTMLButtonElement;
@@ -52,10 +28,9 @@ function App() {
         <OutputDiv>{value}</OutputDiv>
         <InputDiv>
           <div className="firstRow">
-            <LightButton onClick={() => clear()}>C</LightButton>
-            <LightButton onClick={() => changeSign()}>+/-</LightButton>
-            <LightButton onClick={() => percent()}>%</LightButton>
-            <OrangeButton onClick={() => division()}>/</OrangeButton>
+            <LightLongButton onClick={() => clear(setValue)}>C</LightLongButton>
+            <LightButton onClick={() => percent({setValue, value})}>%</LightButton>
+            <OrangeButton onClick={() => division({setValue, value})}>/</OrangeButton>
           </div>
           <div className="secondRow">
             <DarkButton className="numberButton" onClick={getInput}>
@@ -67,7 +42,7 @@ function App() {
             <DarkButton className="numberButton" onClick={getInput}>
               9
             </DarkButton>
-            <OrangeButton onClick={() => multiplication()}>*</OrangeButton>
+            <OrangeButton onClick={() => multiplication({setValue, value})}>*</OrangeButton>
           </div>
           <div className="thirdRow">
             <DarkButton className="numberButton" onClick={getInput}>
@@ -79,7 +54,7 @@ function App() {
             <DarkButton className="numberButton" onClick={getInput}>
               6
             </DarkButton>
-            <OrangeButton onClick={() => subtraction()}>-</OrangeButton>
+            <OrangeButton onClick={() => subtraction({setValue, value})}>-</OrangeButton>
           </div>
           <div className="forthRow">
             <DarkButton className="numberButton" onClick={getInput}>
@@ -91,14 +66,14 @@ function App() {
             <DarkButton className="numberButton" onClick={getInput}>
               3
             </DarkButton>
-            <OrangeButton onClick={() => addition()}>+</OrangeButton>
+            <OrangeButton onClick={() => addition({setValue, value})}>+</OrangeButton>
           </div>
           <div className="fifthRow">
             <LongButton className="numberButton" onClick={getInput}>
               0
             </LongButton>
             <DarkButton onClick={getInput}>.</DarkButton>
-            <OrangeButton onClick={() => result()}>=</OrangeButton>
+            <OrangeButton onClick={() => result({setValue, value})}>=</OrangeButton>
           </div>
         </InputDiv>
       </StyledDiv>
@@ -137,6 +112,10 @@ const LightButton = styled(Button)`
 const LongButton = styled(DarkButton)`
   width: 117px;
 `;
+
+const LightLongButton = styled(LightButton)`
+  width: 117px;
+`
 
 const InputDiv = styled.div`
   height: 300px;
